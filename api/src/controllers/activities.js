@@ -1,4 +1,4 @@
-const { Activity } = require("../db");
+const { Activity , Country } = require("../db");
 
 const activitiesPost = async (req, res) => {
   try {
@@ -21,6 +21,16 @@ const activitiesPost = async (req, res) => {
   }
 };
 
+const activitiesGet = async (req, res) => {
+  try {
+    const activity = await Activity.findAll({include: Country})
+    return res.status(200).send({ msg: "Buscando actvidad ", activity });
+  } catch (error) {
+    return res.status(400).send({ msg: error.message });
+  }
+}
+
 module.exports = {
-  activitiesPost
+  activitiesPost,
+  activitiesGet
 };
