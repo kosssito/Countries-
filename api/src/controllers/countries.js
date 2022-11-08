@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { Op } = require("sequelize");
-const { Country } = require("../db");
+const { Country ,Activity} = require("../db");
 
 const getCountriesAll = async (req, res) => {
   try {
@@ -9,7 +9,8 @@ const getCountriesAll = async (req, res) => {
       // *Busqueda de ciudad por nombre no macheo exacto
       const getDB = await Country.findAll({
         where: { name: { [Op.iLike]: `${name}%` } },
-        attributes: ["flag", "name", "continent", "id", "area", "population"],
+        attributes: { exclude: ["capital", "subregion"] },
+        include: Activity,
       });
       return res.send({ msg: "Busqueda de ciudad por nombre ", getDB });
     }
@@ -36,6 +37,7 @@ const getCountriesAll = async (req, res) => {
     // *Busqueda de todas las ciudades en la base de datos
     const getDB = await Country.findAll({
       attributes: ["flag", "name", "continent"],
+      include: Activity,
     });
 
     return res.send({ msg: "Informacion desde la DB", getDB });
@@ -48,12 +50,12 @@ const getCountry = async (req, res) => {
   try {
     // *Busqueda de ciudad por id
     const { id } = req.params;
-    const getDB = await Country.findAll({ 
+    const getDB = await Country.findAll({
       where: { id: id.toUpperCase() },
-      attributes: ["flag", "name", "continent", "id", "area", "population"]
+      attributes: { exclude: ["capital", "subregion"] },
+      include: Activity,
     });
     return res.send({ msg: "Busqueda de ciudad por id", getDB });
-    
   } catch (error) {
     return res.status(400).send({ msg: error.message });
   }
