@@ -1,23 +1,29 @@
 import { Link } from "react-router-dom";
-import "./nav.css";
+import style from "./nav.Bar.module.css";
 import Search from "../Search/Search";
+import ico from "./icoFlag.jpg";
 
 const NavBar = () => {
   return (
     <>
-      <nav >
-        <ul className="menu">
-          <Link to='/home'>
-            <li>Home</li>
+      <header className={`${style.header}`}>
+        <div className={`${style.logo}`}>
+        <Link to="/">
+          <img src={ico} alt="ico img"/>
           </Link>
-          <Link to='/activity'>
-            <li>Activity</li>
-          </Link>
-          
-          <Search />
-          
-        </ul>
-      </nav>
+        </div>
+        <nav>
+          <ul className={`${style.links}`}>
+            <Link to="/home">
+              <li>HOME</li>
+            </Link>
+            <Link to="/activity">
+              <li>ACTIVITY</li>
+            </Link>
+          </ul>
+        </nav>
+        <Search className="style.btn" />
+      </header>
     </>
   );
 };

@@ -14,7 +14,7 @@ const activitiesPost = async (req, res) => {
 
     const activity = await Activity.create({ name, difficulty, duration, season });
     await activity.addCountries(countries)
-    return res.status(200).send({ msg: "Creando actvidad ", activity });
+    return res.status(200).send(activity);
 
   } catch (error) {
     return res.status(400).send({ msg: error.message });
@@ -24,7 +24,7 @@ const activitiesPost = async (req, res) => {
 const activitiesGet = async (req, res) => {
   try {
     const activity = await Activity.findAll({include: Country})
-    return res.status(200).send({ msg: "Buscando actvidad ", activity });
+    return res.status(200).send(activity);
   } catch (error) {
     return res.status(400).send({ msg: error.message });
   }

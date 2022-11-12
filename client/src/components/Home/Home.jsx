@@ -1,5 +1,5 @@
-import React from "react";
-import {  useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import NavBar from "../../components/Nav/NavBar";
 import { getAllCountries } from "../../redux/actions";
@@ -45,34 +45,37 @@ import CountryCard from "../CountryCard/CountryCard";
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
-
 export const Home = () => {
-  const countries = useSelector((state)=> state.countries);
-   console.log(countries)
   const dispatch = useDispatch();
-  
+
+  useEffect(() => {
+    dispatch(getAllCountries());
+  }, [dispatch]);
+
+  const countries = useSelector((state) => state.countries);
 
   return (
     <div>
       <NavBar />
-      <button onClick={()=>{dispatch(getAllCountries())}}>Cargar DATA</button>
-      {
-      countries.data &&  countries.data.map(c=>
-        (  <CountryCard 
-            key={c.name}
-            flag={c.flag}
-            name={c.name}
-            continent={c.continent}
-          />)
-        )
-      }
-
-      <h1>Home</h1>
-      <br />
       <Link to="/">
         <button>Go To Landing</button>
       </Link>
+      <h1>====All Countries====</h1>
+      {countries &&
+        countries.map((c) => (
+         
+
+          <CountryCard
+            key={c.id}
+            id={c.id}
+            flag={c.flag}
+            name={c.name}
+            continent={c.continent}
+            />
+            
+        ))}
+
+      <br />
     </div>
   );
 };
-

@@ -6,8 +6,9 @@ import {
 } from "../actions";
 
 const initialState = {
-  countries: [],
+  countries:[],
   country: {},
+
 };
 
 const rootReducer = (state = initialState, action) => {
