@@ -12,7 +12,7 @@ const getCountriesAll = async (req, res) => {
         attributes: { exclude: ["capital", "subregion"] },
         include: Activity,
       });
-      return res.send({ msg: "Busqueda de ciudad por nombre ", getDB });
+      return res.send(getDB);
     }
 
     // busco la data en la api externa si mi db esta vacia
@@ -40,7 +40,7 @@ const getCountriesAll = async (req, res) => {
       include: Activity,
     });
 
-    return res.send({ msg: "Informacion desde la DB", getDB });
+    return res.send(getDB);
   } catch (error) {
     return res.status(400).send({ msg: error.message });
   }
