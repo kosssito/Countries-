@@ -1,11 +1,11 @@
 .header{
 
+  position: fixed;
   font-size: 20px;
   background-color: #1b3039;
   height: 100px;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 5px 10%;
 }
 
@@ -24,6 +24,7 @@
 
 .links{
   list-style: none;
+  align-items: center;
 }
 
 .links li{
@@ -37,3 +38,7 @@
   color: #ffbc0e;
 }
 
+.search{
+
+
+}

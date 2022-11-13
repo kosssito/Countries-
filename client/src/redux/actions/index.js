@@ -4,10 +4,12 @@ export const GET_ALL_COUNTRIES = "GET_ALL_COUNTRIES";
 export const GET_COUNTRY_DETAILS_ID = "GET_COUNTRY_DETAILS_ID";
 export const GET_COUNTRY_DETAILS_NAME = "GET_COUNTRY_DETAILS_NAME";
 export const POST_ACTIVITY = "POST_ACTIVITY";
-export const SET_ERROR = "SET_ERROR"
+export const SET_ERROR = "SET_ERROR";
+export const CLEAN_COUNTRY = "CLEAN_COUNTRY";
+export const CLEAN_FIND = "CLEAN_FIND";
 
 export const getAllCountries = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const data = await axios.get("http://localhost:3001/countries");
       return dispatch({
@@ -15,10 +17,10 @@ export const getAllCountries = () => {
         payload: data.data,
       });
     } catch (error) {
-        return dispatch({
-            type: SET_ERROR,
-            payload: true,
-        });
+      return dispatch({
+        type: SET_ERROR,
+        payload: true,
+      });
     }
   };
 };
@@ -26,49 +28,61 @@ export const getAllCountries = () => {
 export const getCountryDetailId = (id) => {
   return async (dispatch) => {
     try {
-        const data = await axios.get(`http://localhost:3001/countries/${id}`);
-       // console.log(data.data)
-        return dispatch({
-          type: GET_COUNTRY_DETAILS_ID,
-          payload: data.data[0],
-        });
-        
+      const data = await axios.get(`http://localhost:3001/countries/${id}`);
+       console.log(data)
+      return dispatch({
+        type: GET_COUNTRY_DETAILS_ID,
+        payload: data.data[0],
+      });
     } catch (error) {
-        return dispatch({
-            type: SET_ERROR,
-            payload: true,
-        })
+      return dispatch({
+        type: SET_ERROR,
+        payload: true,
+      });
     }
   };
 };
 
-export const getCountryName = (name)=>{
-    return async dispatch =>{
-        try {
-            const data = await axios.get(`http://localhost:3001/countries?name=${name}`)
-            return dispatch({
-                type: GET_COUNTRY_DETAILS_NAME,
-                payload: data
-            })
-        } catch (error) {
-            return dispatch({
-                type: SET_ERROR,
-                payload: true
-            })
-        }
+export const getCountryName = (name) => {
+  return async (dispatch) => {
+    try {
+      const data = await axios.get(
+        `http://localhost:3001/countries?name=${name}`
+      );
+      return dispatch({
+        type: GET_COUNTRY_DETAILS_NAME,
+        payload: data.data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: true,
+      });
     }
-}
+  };
+};
 
-export const postActivity = (data)=>{
-    return async dispatch =>{
-        try {
-            const activity = await axios.post('http://localhost:3001/activities', data)
-            return activity;
-        } catch (error) {
-            return dispatch({
-                type: SET_ERROR,
-                payload: true
-            })
-        }
+export const postActivity = (data) => {
+  return async (dispatch) => {
+    try {
+      const activity = await axios.post(
+        "http://localhost:3001/activities",
+        data
+      );
+      return activity;
+    } catch (error) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: true,
+      });
     }
-}
+  };
+};
+
+export const cleanCountry = () => {
+  return { type: CLEAN_COUNTRY };
+};
+
+export const cleanFind = () => {
+  return { type: CLEAN_FIND };
+};

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import style from "./nav.Bar.module.css";
+import style from "./navBar.module.css";
 import Search from "../Search/Search";
 import ico from "./icoFlag.jpg";
 
@@ -22,7 +22,7 @@ const NavBar = () => {
             </Link>
           </ul>
         </nav>
-        <Search className="style.btn" />
+        <Search className="style.search" />
       </header>
     </>
   );

@@ -1,14 +1,17 @@
 import {
+  CLEAN_COUNTRY,
   GET_ALL_COUNTRIES,
   GET_COUNTRY_DETAILS_ID,
   GET_COUNTRY_DETAILS_NAME,
   POST_ACTIVITY,
+  CLEAN_FIND
 } from "../actions";
 
 const initialState = {
-  countries:[],
+  countries: [],
   country: {},
-
+  find: [],
+  
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -26,12 +29,22 @@ const rootReducer = (state = initialState, action) => {
     case GET_COUNTRY_DETAILS_NAME:
       return {
         ...state,
-        country: action.payload,
+        find: action.payload,
       };
     case POST_ACTIVITY:
       return {
         ...state,
       };
+    case CLEAN_COUNTRY:
+      return {
+        ...state,
+        country: {},
+      };
+      case CLEAN_FIND:
+        return{
+          ...state,
+          find:[]
+        }
 
     default:
       return state;
