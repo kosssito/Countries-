@@ -8,13 +8,13 @@ export const SET_ERROR = "SET_ERROR";
 export const CLEAN_COUNTRY = "CLEAN_COUNTRY";
 export const CLEAN_FIND = "CLEAN_FIND";
 
-export const getAllCountries = () => {
+export const getAllCountries = (filter = 'default') => {
   return async (dispatch) => {
     try {
       const data = await axios.get("http://localhost:3001/countries");
       return dispatch({
         type: GET_ALL_COUNTRIES,
-        payload: data.data,
+        payload: {data: data.data, filter },
       });
     } catch (error) {
       return dispatch({
