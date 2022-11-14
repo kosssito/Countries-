@@ -8,7 +8,7 @@ import {
 } from "../actions";
 
 const initialState = {
-  countries: [],
+  countries: [1, 2],
   country: {},
   find: [],
   pages: [],
@@ -18,8 +18,8 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_COUNTRIES:
       const functionPages = (arr) => {
-        //              0             1
-        //pages =  [ [c1,c2,c3...c9],[c10,c11... c19] ,    ]
+        //                     0             1
+        //ArrPages =  [ [c1,c2,c3...c9],[c10,c11... c19] ,    ]
         const ArrPages = [];
         let aux = [];
         const fistTeen = [...arr].splice(0, 9);
@@ -55,7 +55,7 @@ const rootReducer = (state = initialState, action) => {
           pages: functionPages(abc),
         };
       }
-      //CBA
+      //ZYX
       if (action.payload.filter === "zyx") {
         const zyx = [...action.payload.data].sort((b, a) =>
           a.name.localeCompare(b.name)
@@ -66,7 +66,28 @@ const rootReducer = (state = initialState, action) => {
           pages: functionPages(zyx),
         };
       }
-
+      //pop highest
+      if (action.payload.filter === "highest") {
+        const highest = [...action.payload.data].sort(
+          (b, a) => a.population - b.population
+        );
+        return {
+          ...state,
+          countries: action.payload,
+          pages: functionPages(highest),
+        };
+      }
+      //pop lowest
+      if (action.payload.filter === "lowest") {
+        const lowest = [...action.payload.data].sort(
+          (a, b) => a.population - b.population
+        );
+        return {
+          ...state,
+          countries: action.payload,
+          pages: functionPages(lowest),
+        };
+      }
       return 1;
     case GET_COUNTRY_DETAILS_ID:
       return {

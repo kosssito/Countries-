@@ -26,28 +26,36 @@ export const Home = (props) => {
       <NavBar className={style.navbar} />
       <div className={style.content}>
         <div>
-          <Link to={`/home?page=${page-1}`}>
-          <button>previw</button>
-          </Link>
-          <Link to= {`/home?page=${page+1}`}>
-          <button>next</button>
-          </Link>
+          <button onClick={()=>{dispatch(getAllCountries())}}>Reset</button>
         </div>
         <div>
           <button onClick={()=>{dispatch(getAllCountries('abc'))}}>ABC</button>
           <button onClick={()=>{dispatch(getAllCountries('zyx'))}}>ZYX</button>
-        </div>
+        </div>  
+        <div>
+          <button onClick={()=>{dispatch(getAllCountries('highest'))}}>HIGHEST</button>
+          <button onClick={()=>{dispatch(getAllCountries('lowest'))}}>LOWEST</button>
+        </div>  
+            <div>
+              <Link to={`/home?page=${page-1}`}>
+              <button>previw</button>
+              </Link>
+              <Link to= {`/home?page=${page+1}`}>
+              <button>next</button>
+              </Link>
+            </div>
         <h1>====All Countries====</h1>
         {pages[page] &&
           pages[page].map((c) => (
             <CountryCard
-              key={c.id}
-              id={c.id}
-              flag={c.flag}
-              name={c.name}
-              continent={c.continent}
+            key={c.id}
+            id={c.id}
+            flag={c.flag}
+            name={c.name}
+            continent={c.continent}
             />
           ))}
+        
 
         <br />
       </div>

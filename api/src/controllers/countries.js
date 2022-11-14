@@ -36,7 +36,7 @@ const getCountriesAll = async (req, res) => {
     }
     // *Busqueda de todas las ciudades en la base de datos
     const getDB = await Country.findAll({
-      attributes: ["id","flag", "name", "continent"],
+      attributes: ["id","flag", "name", "continent","population"],
       include: Activity,
     });
 
