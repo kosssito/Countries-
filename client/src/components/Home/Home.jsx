@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import NavBar from "../../components/Nav/NavBar";
 import { getAllCountries } from "../../redux/actions";
 import CountryCard from "../CountryCard/CountryCard";
-import style from "./home.module.css"
+import style from "./home.module.css";
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -17,12 +16,12 @@ export const Home = () => {
 
   return (
     <>
-        <NavBar className={style.navbar}/>
-
+      <NavBar className={style.navbar} />
       <div className={style.content}>
-        <Link to="/">
-          <button>Go To Landing</button>
-        </Link>
+        <div>
+          <button>previw</button>
+          <button>next</button>
+        </div>
         <h1>====All Countries====</h1>
         {countries &&
           countries.map((c) => (
@@ -32,8 +31,8 @@ export const Home = () => {
               flag={c.flag}
               name={c.name}
               continent={c.continent}
-              />
-              ))}
+            />
+          ))}
 
         <br />
       </div>
