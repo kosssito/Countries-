@@ -5,15 +5,18 @@ import {
   GET_COUNTRY_DETAILS_NAME,
   POST_ACTIVITY,
   CLEAN_FIND,
-  CLEAN_ACTIVITY_FIND,
+  CLEAN_ACTIVITY_SEARCHER,
   SEARCH_COUNTRY_FOR_ACTIVITY,
+  GET_ACTIVITY
 } from "../actions";
 
 const initialState = {
   pages: [],
-  activtyFind: [],
+  activtySearcher: [],
   country: {},
   find: [],
+  error: '',
+  activities: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -45,6 +48,8 @@ const rootReducer = (state = initialState, action) => {
         });
         return ArrPages;
       };
+
+      
       //Default
       if (action.payload.filter === "default") {
         return {
@@ -113,13 +118,18 @@ const rootReducer = (state = initialState, action) => {
     case SEARCH_COUNTRY_FOR_ACTIVITY:
       return {
         ...state,
-        activtyFind: action.payload,
+        activtySearcher: action.payload,
       };
-    case CLEAN_ACTIVITY_FIND:
+    case CLEAN_ACTIVITY_SEARCHER:
       return {
         ...state,
-        activtyFind: [],
+        activtySearcher: [],
       };
+    case GET_ACTIVITY:
+      return{
+        ...state,
+        activities: action.payload,
+      }
 
     default:
       return state;

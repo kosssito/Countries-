@@ -2,3 +2,8 @@
 
     padding-top: 150px;
 }
+
+.div{
+    display: flex;
+    justify-items: auto;
+}

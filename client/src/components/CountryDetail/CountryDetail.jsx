@@ -36,7 +36,9 @@ const CountryDetail = ({ match }) => {
             <ActivityCard
               key={a.name}
               name={a.name}
+              start={a.start}
               difficulty={a.difficulty}
+              end={a.end}
               season={a.season}
               duration={a.duration}
             />

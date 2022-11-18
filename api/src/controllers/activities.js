@@ -1,21 +1,30 @@
-const { Activity , Country } = require("../db");
+const { Activity } = require("../db");
+const { Op } = require("sequelize");
 
 const activitiesPost = async (req, res) => {
   try {
-    const { name, difficulty, duration, season, countries } = req.body;
+    const { name, difficulty, start, end, season, countries } = req.body;
 
-    if(!name) throw new Error('Ingrese un nombre')
-    if(!difficulty || difficulty<1 || difficulty >5) throw new Error('Ingrese una dificultad entre 1 y 5')
-    if(!duration) throw new Error('Ingrese una duracion')
-    if(!season) throw new Error('Ingrese una temporada valida')
- 
-    const findAct = await Activity.findOne({ where: { name } });
-    if (findAct) throw new Error("Actividad ya existente!!! ingrese otro nombre a la actividad");
+    if (!name) throw new Error("Ingrese un nombre");
+    if (!difficulty || difficulty < 1 || difficulty > 5)
+      throw new Error("Ingrese una dificultad entre 1 y 5");
+    if (!start) throw new Error("Ingrese la fecha de inicio de actividad");
+    if (!end) throw new Error("Ingrese la fecha de finalizacion de actividad");
+    if (!season) throw new Error("Ingrese una temporada valida");
 
-    const activity = await Activity.create({ name, difficulty, duration, season });
-    await activity.addCountries(countries)
+    const validator = await Activity.findOne({
+      where: { name: { [Op.iLike]: `${name}` } },
+    });
+    if (validator) throw new Error( "Actividad ya existente!!! ingrese otro nombre a la actividad");
+    const activity = await Activity.create({
+      name,
+      difficulty,
+      start,
+      end,
+      season,
+    });
+    await activity.addCountries(countries);
     return res.status(200).send(activity);
-
   } catch (error) {
     return res.status(400).send({ msg: error.message });
   }
@@ -23,14 +32,14 @@ const activitiesPost = async (req, res) => {
 
 const activitiesGet = async (req, res) => {
   try {
-    const activity = await Activity.findAll({include: Country})
+    const activity = await Activity.findAll()
     return res.status(200).send(activity);
   } catch (error) {
     return res.status(400).send({ msg: error.message });
   }
-}
+};
 
 module.exports = {
   activitiesPost,
-  activitiesGet
+  activitiesGet,
 };

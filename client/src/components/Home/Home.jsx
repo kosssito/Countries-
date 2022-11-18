@@ -19,14 +19,17 @@ export const Home = () => {
     page: 0,
     pages: [1,2,3,4,5],
     next: false,
-    back: false
+    back: true
   });
+
   const handleContinent = (e) => {
     setOptions({
       ...options,
       continent: e.target.value,
       page: 0,
-      pages: [1,2,3,4,5]
+      pages: [1,2,3,4,5],
+      next: false,
+      back: true
     });
     dispatch(getAllCountries(e.target.value));
   };
@@ -38,45 +41,53 @@ export const Home = () => {
     options.page < 1&&setOptions({...options,back:true})
    
     if (options.pages[0] > 1)
-     return setOptions({
+    { return setOptions({
         ...options,
         page: options.page - 1,
-        pages: options.pages.map(e => e-1)
+        pages: options.pages.map(e => e-1),
+        next:false
       });
-    if(options.page+1 > 1) 
-    return setOptions({
+     // options.page < 1&&setOptions({...options,back:true})
+    
+    }
+
+    if(options.page+1 >1) 
+    {return setOptions({
       ...options,
       page: options.page - 1,
       next:false
     });
+   // return  options.page < 1&&setOptions({...options,back:true})
+  }
 
 
   };
   const handleNext = () => {
-    options.page < pages.length&&setOptions({...options,next:true})
+   options.page < pages.length&&setOptions({...options,next:true})
   
     
     if(options.pages[4] < pages.length)
     return setOptions({
       ...options,
       page: options.page + 1,
-      pages: options.pages.map(e => e+1)
+      pages: options.pages.map(e => e+1),
+      back:false,
     })
-    if (options.page < pages.length - 1)
+    if (options.page < pages.length-1)
       return setOptions({
         ...options,
         page: options.page + 1,
        back:false
       })
-    //  return e.target.disabled = true
+
   };
   const handeClick = (e)=>{
     setOptions({
       ...options,
       page: parseInt(e.target.textContent)-1
     })
-    console.log(e.target.textContent)
-    console.log(e.target.disabled )
+    // console.log(e.target.textContent)
+    // console.log(e.target.disabled )
 
   
   }

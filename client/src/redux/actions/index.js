@@ -7,8 +7,9 @@ export const POST_ACTIVITY = "POST_ACTIVITY";
 export const SET_ERROR = "SET_ERROR";
 export const CLEAN_COUNTRY = "CLEAN_COUNTRY";
 export const CLEAN_FIND = "CLEAN_FIND";
-export const CLEAN_ACTIVITY_FIND = "CLEAN_ACTIVITY_FIND";
+export const CLEAN_ACTIVITY_SEARCHER = "CLEAN_ACTIVITY_SEARCHER";
 export const SEARCH_COUNTRY_FOR_ACTIVITY = "SEARCH_COUNTRY_FOR_ACTIVITY";
+export const GET_ACTIVITY = "GET_ACTIVITY";
 
 export const getAllCountries = (continet = "default", filter = "default") => {
   return async (dispatch) => {
@@ -99,6 +100,24 @@ export const postActivity = (data) => {
   };
 };
 
+export const getActivity = () => {
+  return async (dispatch) => {
+    try {
+      const activities = await axios.get(
+        "http://localhost:3001/activities" );
+      return dispatch({
+        type: GET_ACTIVITY,
+        payload: activities.data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: true,
+      });
+    }
+  };
+};
+
 export const cleanCountry = () => {
   return { type: CLEAN_COUNTRY };
 };
@@ -107,6 +126,6 @@ export const cleanFind = () => {
   return { type: CLEAN_FIND };
 };
 
-export const cleanActiviyFind = () => {
-  return { type: CLEAN_ACTIVITY_FIND };
+export const cleanActiviySearcher = () => {
+  return { type: CLEAN_ACTIVITY_SEARCHER };
 };
