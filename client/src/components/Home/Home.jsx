@@ -2,95 +2,99 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../../components/Nav/NavBar";
 import { getAllCountries } from "../../redux/actions";
-import CountryCard from "../CountryCard/CountryCard";
+import Paginate from "../Paginate/Paginate";
 import style from "./home.module.css";
 
-export const Home = () => {
-  const dispatch = useDispatch();
+const functionContinetFilter = (arr, continet) => {
+  if (continet === "default") return arr;
+  return [...arr].filter(
+    (c) => c.continent === continet // 'nort america', 'afica'
+  );
+};
 
+const sort = (arr, filterby) => {
+  //Default
+  if (filterby === "default") return arr;
+
+  //ABC
+  if (filterby === "abc")
+    return [...arr].sort((a, b) => a.name.localeCompare(b.name));
+
+  //ZYX
+  if (filterby === "zyx")
+    return [...arr].sort((b, a) => a.name.localeCompare(b.name));
+
+  //pop highest
+  if (filterby === "highest")
+    return [...arr].sort((b, a) => a.population - b.population);
+
+  //pop lowest
+  if (filterby === "lowest")
+    return [...arr].sort((a, b) => a.population - b.population);
+};
+
+export const Home = () => {
+  // Local STATES
+  const [fillter, setFilter] = useState({
+    filterOutPut: [],
+    continents: "default",
+    filterBy: "default",
+  });
+
+  const [options, setOptions] = useState({
+    page: 0,
+    pages: [1, 2, 3, 4, 5],
+    next: false,
+    back: true,
+  });
+
+  // USE SELECTOR
+  const allCountries = useSelector((state) => state.allCountries);
+
+  // USE EFECT
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCountries());
   }, [dispatch]);
 
-  const pages = useSelector((state) => state.pages);
+  useEffect(() => {
+    setFilter({
+      ...fillter,
+      filterOutPut: [...allCountries],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allCountries]);
 
-  const [options, setOptions] = useState({
-    continent: "default",
-    page: 0,
-    pages: [1,2,3,4,5],
-    next: false,
-    back: true
-  });
-
+  // Select Contient Input
   const handleContinent = (e) => {
+  
     setOptions({
       ...options,
-      continent: e.target.value,
       page: 0,
-      pages: [1,2,3,4,5],
+      pages: [1, 2, 3, 4, 5],
       next: false,
-      back: true
+      back: true,
     });
-    dispatch(getAllCountries(e.target.value));
+    const filter = functionContinetFilter([...allCountries], e.target.value);
+    setFilter({
+      ...fillter,
+      filterOutPut: sort(filter, fillter.filterBy),
+      continents: e.target.value,
+    });
   };
+
+  // Select FilterBy Input
   const handleFillter = (e) => {
-    dispatch(getAllCountries(options.continent, e.target.value));
-  };
-  const handlePreview = () => {
-
-    options.page < 1&&setOptions({...options,back:true})
-   
-    if (options.pages[0] > 1)
-    { return setOptions({
-        ...options,
-        page: options.page - 1,
-        pages: options.pages.map(e => e-1),
-        next:false
-      });
-     // options.page < 1&&setOptions({...options,back:true})
-    
-    }
-
-    if(options.page+1 >1) 
-    {return setOptions({
-      ...options,
-      page: options.page - 1,
-      next:false
+    const filter = functionContinetFilter(
+      [...allCountries],
+      fillter.continents
+    );
+    setFilter({
+      ...fillter,
+      filterOutPut: sort(filter, e.target.value),
+      filterBy: e.target.value,
     });
-   // return  options.page < 1&&setOptions({...options,back:true})
-  }
-
-
   };
-  const handleNext = () => {
-   options.page < pages.length&&setOptions({...options,next:true})
-  
-    
-    if(options.pages[4] < pages.length)
-    return setOptions({
-      ...options,
-      page: options.page + 1,
-      pages: options.pages.map(e => e+1),
-      back:false,
-    })
-    if (options.page < pages.length-1)
-      return setOptions({
-        ...options,
-        page: options.page + 1,
-       back:false
-      })
-
-  };
-  const handeClick = (e)=>{
-    setOptions({
-      ...options,
-      page: parseInt(e.target.textContent)-1
-    })
-    // console.log(e.target.textContent)
-    // console.log(e.target.disabled )
-
-  
-  }
 
   return (
     <>
@@ -98,7 +102,7 @@ export const Home = () => {
       <div className={style.content}>
         <div>
           <select name="continent" onChange={handleContinent}>
-            <option value="default">Normal </option>
+            <option value="default">All Continents </option>
             <option value="North America">North America</option>
             <option value="South America">South America</option>
             <option value="Europe">Europe</option>
@@ -109,73 +113,16 @@ export const Home = () => {
           </select>
         </div>
         <div>
-          <select name="continent" onChange={handleFillter}>
-            <option value="default">Reset </option>
+          <select name="sort" onChange={handleFillter}>
+            <option value="default">Deault Sort</option>
             <option value="abc">ABC</option>
             <option value="zyx">ZYX</option>
             <option value="highest">HIGHEST</option>
             <option value="lowest">LOWEST</option>
           </select>
         </div>
-
-        <div>
-          {pages.length > 0&&<button disabled={options.back} onClick={handlePreview}>preview</button>}
-          {pages.length > 0&&<button onClick={handeClick}>{options.pages[0]} </button>}
-          {pages.length > 1&&<button onClick={handeClick}>{options.pages[1]} </button>}
-          {pages.length > 2&&<button onClick={handeClick}>{options.pages[2]} </button>}
-          {pages.length > 3&&<button onClick={handeClick}>{options.pages[3]} </button>}
-          {pages.length > 4&&<button onClick={handeClick}>{options.pages[4]} </button>}
-          {pages.length > 0&&<button disabled={options.next}onClick={handleNext}>next</button>}
-        </div>
-        <label>{options.page+1} actual </label>
-        <h1>====All Countries====</h1>
-        {pages[options.page] &&
-          pages[options.page].map((c) => (
-            <CountryCard
-              key={c.id}
-              id={c.id}
-              flag={c.flag}
-              name={c.name}
-              continent={c.continent}
-            />
-          ))}
-
-        <br />
+        <Paginate filterOutPut={fillter.filterOutPut} resetPage={options} />
       </div>
     </>
   );
 };
-
-// export class Home extends React.Component {
-//   constructor(props) {
-//     super(props);
-//   }
-
-//   componentDidMount() {
-//     this.props.getAllCountries();
-//   }
-
-//   render() {
-//     return (
-//       <div>
-//         <NavBar />
-//         <h1>{this.props.countries}</h1>
-//
-//         <br />
-//         <p>cartas de ciudad</p>
-//         <br />
-//         <Link to="/">
-//           <button>Go To Landing</button>
-//         </Link>
-//       </div>
-//     );
-//   }
-// }
-//  const mapStateToProps = (state) => {
-//   return {
-//     countries: state.countries,
-//   };
-// };
-//  const mapDispatchToProps = { getAllCountries };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Home);

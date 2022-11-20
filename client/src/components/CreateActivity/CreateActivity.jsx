@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import {
-  cleanActiviySearcher,
-  getActivity,
-  postActivity,
-  searchCountryForActivity,
-} from "../../redux/actions";
+import { getActivity, postActivity } from "../../redux/actions";
+import AddCountiesForm from "../AddCountiesForm/AddCountiesForm";
 import NavBar from "../Nav/NavBar";
 import style from "./activity.module.css";
 
 const CreateActivity = () => {
-  //LOCAL STAGES
+  //LOCAL STATES
   const [errName, setErrName] = useState({
     name: "activity name must have more than 3 characters",
   });
@@ -30,7 +26,6 @@ const CreateActivity = () => {
   const [errEnd, setErrEnd] = useState({
     end: "select a end activity date",
   });
-  const [errAdd, setErrAdd] = useState({});
 
   const [activity, setActivity] = useState({
     name: "",
@@ -40,47 +35,34 @@ const CreateActivity = () => {
     season: "",
     countries: [],
   });
-
-  const [input, setInput] = useState({
-    search: "",
+  
+  const [countriesAdds, setCountriesAdds] = useState({
     list: [],
-    arr: []
   });
+
+  // Btn Disable Create
+  let btnDisabled = !(
+    activity.name.length &&
+    activity.difficulty.length &&
+    activity.start !== 0 &&
+    activity.end !== 0 &&
+    countriesAdds.list.length &&
+    !errName.name
+  );
 
   // USE EFFECT
   const dispatch = useDispatch();
   const history = useHistory();
-  useEffect(() => {
-    if (input.search !== "") dispatch(searchCountryForActivity(input.search));
-    if (input.search === "") dispatch(cleanActiviySearcher());
-  }, [dispatch, input.search]);
 
   useEffect(() => {
     dispatch(getActivity());
   }, [dispatch]);
 
-  
-
-  // useEffect(() => {
-  //   setErrors(
-  //     validate({
-  //       ...input,
-  //     })
-  //   );
-  // }, [input]);
-
   // USE SELECTOR
-  const activtySearcher = useSelector((state) => state.activtySearcher);
+
   const activities = useSelector((state) => state.activities);
   const actUpper = activities.map((a) => a.name.toUpperCase());
 
-  useEffect(()=>{
-    setErrAdd(
-      validatorAdd({
-        ...input
-      })
-    )  
-  },[input])
   // === VALIDATORS ===
 
   const validatorName = (input) => {
@@ -113,12 +95,6 @@ const CreateActivity = () => {
     if (input === "") error.end = "select a end activity date";
     return error;
   };
-  const validatorAdd = (input) => {
-    const error = {};
-    if(input.arr.length)
-    error.add = "don't exist this country"
-    return error;
-  };
 
   // monitor changes in activity inputs
   const handleChange = (e) => {
@@ -136,68 +112,15 @@ const CreateActivity = () => {
     });
   };
 
-  const handleSearch = (e) => {
-    //setErrAdd(validatorAdd(e.target.value));
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-      arr: activtySearcher
-      
-    });
-  };
-
-  // CLICKS
-
-  const handleClick = () => {
-    if (activtySearcher.length !== 0) {
-      if (!input.list.map((c) => c.name).includes(activtySearcher[0].name)) {
-      //  setErrAdd({});
-        return setInput({
-          ...input,
-          list: [...input.list, activtySearcher[0]],
-          search: "",
-        });
-      }
-    }
-    // setErrAdd(validatorAdd(input.search));
-  };
-
-  let btnDisabled =
-  !(
-    activity.name.length &&
-    activity.difficulty.length &&
-    activity.start !== 0 &&
-    activity.end !== 0 &&
-    input.list.length
-  ) 
- let btnDisabledAdd =!(input.search.length)
 
   //===SUBMIT====
   const handleSubmit = (e) => {
-       e.preventDefault();
+    e.preventDefault();
 
-    activity.countries = input.list.map((c) => c.id);
+    activity.countries = countriesAdds.list.map((c) => c.id);
     alert("SE CREO ACTIVIAD!!!", activity);
     dispatch(postActivity(activity));
     history.push("/home");
-  };
-
-  const handleAddCountry = () => {
-    if (!input.list.map((c) => c.name).includes(activtySearcher[0].name)) {
-      // setErrAdd({});
-      setInput({
-        ...input,
-        list: [...input.list, activtySearcher[0]],
-        search: "",
-      });
-    }
-  };
-
-  const handleDeleteCountry = (e) => {
-    setInput({
-      ...input,
-      list: input.list.filter((c) => c.id !== e.target.name),
-    });
   };
 
   return (
@@ -250,43 +173,17 @@ const CreateActivity = () => {
             {errEnd.end && errEnd.end}
           </div>
         </form>
-        <input
-          type="text"
-          placeholder="= search a city and add it ="
-          name="search"
-          onChange={handleSearch}
-        />
 
-        <button disabled={btnDisabledAdd} onClick={handleClick}>Add</button>
         <div>
-          <ul>
-            {activtySearcher.map(
-              (c, i) =>
-                i < 5 && (
-                  <li key={c.name}>
-                    <button onClick={handleAddCountry}>{c.name}</button>
-                  </li>
-                )
-            )}
-          </ul>
-        </div>
-        {errAdd.add && <p>{errAdd.add} </p>}
-        <div>
-          <ul>
-            <p>Counties adds:</p>
-            {input.list.map((c) => (
-              <li key={c.name}>
-                <label>{c.name}</label>
-                <button name={c.id} onClick={handleDeleteCountry}>
-                  X
-                </button>
-              </li>
-            ))}
-          </ul>
+          <AddCountiesForm
+            setCountriesAdds={setCountriesAdds}
+            countriesAdds={countriesAdds}
+          />
         </div>
       </div>
-      <form  onSubmit={handleSubmit}>
-            <button disabled={btnDisabled}>Create</button>
+
+      <form onSubmit={handleSubmit}>
+        <button disabled={btnDisabled}>Create</button>
       </form>
     </>
   );
