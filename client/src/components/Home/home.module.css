@@ -1,10 +1,7 @@
 .content{
+    
     display: flex;
     flex-direction: column;
-    padding-top: 150px;
-    
-}
-
-.navbar{
-   
+    padding-top: 25px;
+  
 }

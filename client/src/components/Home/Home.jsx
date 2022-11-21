@@ -111,8 +111,7 @@ export const Home = () => {
             <option value="Africa">Africa</option>
             <option value="Antarctica">Antarctica</option>
           </select>
-        </div>
-        <div>
+       
           <select name="sort" onChange={handleFillter}>
             <option value="default">Deault Sort</option>
             <option value="abc">ABC</option>
@@ -121,7 +120,10 @@ export const Home = () => {
             <option value="lowest">LOWEST</option>
           </select>
         </div>
+        <div className={style.cards}>
+
         <Paginate filterOutPut={fillter.filterOutPut} resetPage={options} />
+        </div>
       </div>
     </>
   );

@@ -48,10 +48,11 @@ const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
       ...input,
       [e.target.name]: e.target.value,
     });
+    console.log(e)
   };
 
   // ADD button 
-  const handleClick = (e) => {
+  const handleClick = () => {
     if (activtySearcher.length !== 0) {
       if (!input.list.map((c) => c.name).includes(activtySearcher[0].name)) {
         setInput({
@@ -59,30 +60,37 @@ const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
           list: [...input.list, activtySearcher[0]],
           search: "",
         });
+
+        // props
+       return setCountriesAdds({
+          ...countriesAdds,
+          list: [...countriesAdds.list, activtySearcher[0]],
+        });
       }
-      // props
-      setCountriesAdds({
-        ...countriesAdds,
-        list: [...countriesAdds.list, activtySearcher[0]],
-      });
     }
+    setInput({
+      ...input,
+      search: "",
+    });
   };
 
   // button <country>  On country list ADD
-  const handleAddCountry = () => {
-    if (!input.list.map((c) => c.name).includes(activtySearcher[0].name)) {
+  const handleAddCountry = (e) => {
+    if (!input.list.map((c) => c.name).includes(activtySearcher[e.target.name].name)) {
+
       setInput({
         ...input,
-        list: [...input.list, activtySearcher[0]],
+        list: [...input.list, activtySearcher[e.target.name]],
         search: "",
       });
 
       //props
       setCountriesAdds({
         ...countriesAdds,
-        list: [...countriesAdds.list, activtySearcher[0]],
+        list: [...countriesAdds.list, activtySearcher[e.target.name]],
       });
     }
+
   };
 
 // button "X" On country list Delete
@@ -101,27 +109,29 @@ const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
 
   return (
     <>
+    <form  >
       <input
         type="text"
         placeholder="= search a city and add it ="
         name="search"
         onChange={handleSearch}
-      />
-      <button disabled={btnDisabledAdd} onClick={handleClick}>
-        Add
+        />
+      <button type="reset" disabled={btnDisabledAdd} onClick={handleClick}>
+      ADD
       </button>
       <div>
         <ul>
           {activtySearcher.map(
             (c, i) =>
-              i < 5 && (
-                <li key={c.name}>
-                  <button onClick={handleAddCountry}>{c.name}</button>
+            i < 5 && (
+              <li key={c.name}>
+                  <button name={i} type="reset" onClick={handleAddCountry}>{c.name}</button>
                 </li>
               )
-          )}
+              )}
         </ul>
       </div>
+    </form>
       {errAdd.add && <p>{errAdd.add} </p>}
       <div>
         <ul>

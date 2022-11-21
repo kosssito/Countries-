@@ -1,0 +1,13 @@
+.content{
+    border: solid rgba(26, 25, 25, 0.363) 1px;
+    background-color: dimgrey;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    width: 300px;
+    position: relative;
+    /* align-items: center; */
+    align-self: auto;
+ 
+}
