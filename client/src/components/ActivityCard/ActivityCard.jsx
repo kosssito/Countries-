@@ -1,12 +1,13 @@
 const ActivityCard = (props) => {
   return (
     <>
-      <p>Name: {props.name}</p>
-      <p>Difficulty: {props.difficulty}</p>
-      <p>Season: {props.season}</p>
-      <p>Start of activity: {props.start}</p>
-      <p>End of activity: {props.end}</p>
+      <h4>{props.name}</h4>
       
+      <span>Difficulty: {props.difficulty}</span>
+      <span>Season: {props.season}</span>
+      <span>Start of activity: {props.start}</span>
+      <span>End of activity: {props.end}</span>
+    
 
     </>
   );

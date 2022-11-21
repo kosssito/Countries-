@@ -6,7 +6,7 @@ import Paginate from "../Paginate/Paginate";
 import style from "./home.module.css";
 
 const functionContinetFilter = (arr, continet) => {
-  if (continet === "default") return arr;
+  if (continet === "All Continents") return arr;
   return [...arr].filter(
     (c) => c.continent === continet // 'nort america', 'afica'
   );
@@ -37,7 +37,7 @@ export const Home = () => {
   // Local STATES
   const [fillter, setFilter] = useState({
     filterOutPut: [],
-    continents: "default",
+    continents: "All Continents",
     filterBy: "default",
   });
 
@@ -67,7 +67,6 @@ export const Home = () => {
 
   // Select Contient Input
   const handleContinent = (e) => {
-  
     setOptions({
       ...options,
       page: 0,
@@ -100,9 +99,10 @@ export const Home = () => {
     <>
       <NavBar className={style.navbar} />
       <div className={style.content}>
-        <div>
+        <h1 className={style.title}>{fillter.continents}</h1>
+        <div className={style.select}>
           <select name="continent" onChange={handleContinent}>
-            <option value="default">All Continents </option>
+            <option value="All Continents">All Continents </option>
             <option value="North America">North America</option>
             <option value="South America">South America</option>
             <option value="Europe">Europe</option>
@@ -111,7 +111,7 @@ export const Home = () => {
             <option value="Africa">Africa</option>
             <option value="Antarctica">Antarctica</option>
           </select>
-       
+
           <select name="sort" onChange={handleFillter}>
             <option value="default">Deault Sort</option>
             <option value="abc">ABC</option>
@@ -121,8 +121,7 @@ export const Home = () => {
           </select>
         </div>
         <div className={style.cards}>
-
-        <Paginate filterOutPut={fillter.filterOutPut} resetPage={options} />
+          <Paginate filterOutPut={fillter.filterOutPut} resetPage={options} />
         </div>
       </div>
     </>

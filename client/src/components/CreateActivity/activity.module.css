@@ -1,9 +1,23 @@
-.form{
-
-    padding-top: 150px;
+.container{
+   
+    background: url('avtivity.png');
 }
 
-.div{
-    display: flex;
-    justify-items: auto;
+.form{
+display: flex;
+flex-direction: column;
+height: 600px;
+width:  500px;
+background-color: rgba(204, 204, 204, 0.548);
+position: relative;
+left: 30%;
+border-radius: 50px;
+margin-top: 60px;
+bottom: 30px;
+font-weight: bold;
+ 
+}
+
+.err{
+    border: solid rgb(53, 49, 3) 5px;
 }

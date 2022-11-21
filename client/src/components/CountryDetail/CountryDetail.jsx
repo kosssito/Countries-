@@ -19,35 +19,48 @@ const CountryDetail = ({ match }) => {
   }, [dispatch, id]);
   const country = useSelector((state) => state.country);
   return (
-    <>
+    <div className={style.body}>
       <NavBar />
 
       <div className={style.content}>
-        <img src={country.flag} alt="img-country" width={200} height={100} />
-        <h1>Name: {country.name}</h1>
-        <p>ID: {country.id}</p>
-        <p>continent: {country.continent}</p>
-        <p>Area: {country.area}</p>
-        <p>Population: {country.population}</p>
-        <p>Activities:</p>
-        {country.Activities &&
-          country.Activities.length !== 0 &&
-          country.Activities.map((a) => (
-            <ActivityCard
-              key={a.name}
-              name={a.name}
-              start={a.start}
-              difficulty={a.difficulty}
-              end={a.end}
-              season={a.season}
-              duration={a.duration}
-            />
-          ))}
-        <Link to="/home">
-          <button>Back</button>
-        </Link>
+        <div className={style.cInfo}>
+          <img src={country.flag} alt="img-country" width={200} height={100} />
+          <h1>{country.name}</h1>
+          <span className={style.title}>CONTINENT</span>
+          <span>{country.continent}</span>
+          <span className={style.title}>ID</span>
+          <span>{country.id}</span>
+          <span className={style.title}>AREA</span>
+          <span>{country.area}</span>
+          <span className={style.title}>POPULATION</span>
+          <span>{country.population}</span>
+          
+        </div>
+        <div className={style.cActivity}>
+        <h2 className={style.title}>Activities:</h2>
+          {country.Activities &&
+            country.Activities.length !== 0 &&
+            country.Activities.map((a) => (
+              <ActivityCard
+                key={a.name}
+                name={a.name}
+                start={a.start}
+                difficulty={a.difficulty}
+                end={a.end}
+                season={a.season}
+                duration={a.duration}
+              />
+            ))}
+          <div className={style.button}>
+            <br />
+            <Link to="/home">
+              <button>Back</button>
+            
+            </Link>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

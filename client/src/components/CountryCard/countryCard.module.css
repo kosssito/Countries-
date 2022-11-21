@@ -1,13 +1,25 @@
 .content{
-    border: solid rgba(26, 25, 25, 0.363) 1px;
-    background-color: dimgrey;
-    border-radius: 15px;
+
+    background-color: rgba(101, 100, 99, 0.347);
+    box-shadow: 15px 15px 15px rgba(156, 156, 156, 0.418);
+    border-radius: 30px;
     display: flex;
     flex-direction: column;
     height: 250px;
     width: 300px;
     position: relative;
-    /* align-items: center; */
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+     padding: 2%;
+    align-items: center;
     align-self: auto;
- 
+    color: aliceblue;
+}
+
+.content img{
+    width: 250px;
+    height: 150px;
+    
 }

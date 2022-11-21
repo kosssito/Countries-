@@ -1,17 +1,28 @@
 import { Link } from "react-router-dom";
-import img from "../../countries.png"
+import style from "./laningPage.module.css";
 
 const LandingPage = () => {
   return (
-    <div>
-      <h1>Countries</h1>
-      <p>by</p>
-      <p>Eduardo Laredo</p>
-      <Link to='/home'>
-      <button>Click To Home</button>
-      </Link>
-      <img src={img} alt="No Imagen" width={1000} height={500}/>
-      <br />
+    <div className={style.content}>
+      <div className={style.header}>
+        <h1>PI COUNTRIES</h1>
+      </div>
+      <div className={style.info}>
+        <div className={style.dev}>
+          <span>Developer</span>
+          <br />
+          <span>Eduardo Laredo</span>
+        </div>
+      
+          <span>Backend with Express JS</span>
+          <span>Fontend with React-Readux</span>
+          <span>Data Base with Sequelize</span>
+      </div>
+      <div className={style.button}>
+        <Link to="/home">
+          <button>HOME</button>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,54 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background: url('./landig.png');
+    background-size: 100% 100%;
+
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 5%;
+    top: 60%;
+    justify-content: start;
+}
+
+.button button{
+    position: absolute;
+    bottom: 10%;
+    left: 40%;
+    width: 300px;
+    height: 100px;
+    font-size: 50px;
+    border-radius: 50px;
+}
+
+.button button:hover{
+   background-color: rgb(234, 146, 5);
+   color: aliceblue;
+}
+
+.info span{
+    font-size: 20px;
+}
+
+.dev span{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.header{
+    position: relative;
+    bottom: 40%;
+    font-size: 50px;
+    
+}
+
+.header h1{
+    text-shadow: 15px 15px 15px rgb(31, 30, 30);
+}

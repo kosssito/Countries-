@@ -1,4 +1,46 @@
-.content{
- position: relative;
- top: 200px;
+.body{
+
+  background: url(detail.png);
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(110, 155, 195, 0.58);
+  width: 500px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  left: 32%;
+  margin-top: 60px;
+  padding-top: 20px;
+  bottom: 30px;
+  border-radius: 20px;
+  
+}
+
+.cInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cActivity {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title{
+  font-weight: bold;
+}
+
+.button button{
+  height: 40px;
+  width: 60px;
+  border-radius: 20px;
+  background-color: rgba(4, 4, 95, 0.6);
+  font-size: 20px;
+  margin-bottom: 20px;
 }

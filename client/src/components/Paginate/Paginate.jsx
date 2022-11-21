@@ -86,35 +86,33 @@ const Paginate = ({ filterOutPut, resetPage }) => {
   return (
     <>
       <div className={style.content}>
-          <h1 className={style.title}>====All Countries====</h1>
+       
         <div className={style.buttons}>
           {pages.length > 0 && (
             <button disabled={options.back} onClick={handlePreview}>
               preview
             </button>
           )}
-          {pages.length > 0 && (
-            <button onClick={handeClick}>{options.pages[0]} </button>
-          )}
-          {pages.length > 1 && (
-            <button onClick={handeClick}>{options.pages[1]} </button>
-          )}
-          {pages.length > 2 && (
-            <button onClick={handeClick}>{options.pages[2]} </button>
-          )}
-          {pages.length > 3 && (
-            <button onClick={handeClick}>{options.pages[3]} </button>
-          )}
-          {pages.length > 4 && (
-            <button onClick={handeClick}>{options.pages[4]} </button>
-          )}
+          {options.pages &&
+            options.pages.map((p, i) => {
+              let cName = "";
+              if (p === options.page + 1) {
+                cName = style.active;
+              }
+              return (
+                pages.length > i && (
+                  <button key={p} className={cName} onClick={handeClick}>
+                    {options.pages[i]}{" "}
+                  </button>
+                )
+              );
+            })}
           {pages.length > 0 && (
             <button disabled={options.next} onClick={handleNext}>
               next
             </button>
           )}
-          <br />
-        <label>{options.page + 1} actual </label>
+        
         </div>
 
         <div className={style.cards}>
@@ -128,6 +126,33 @@ const Paginate = ({ filterOutPut, resetPage }) => {
                 continent={c.continent}
               />
             ))}
+        </div>
+        <div className={style.buttons}>
+          {pages.length > 0 && (
+            <button disabled={options.back} onClick={handlePreview}>
+              preview
+            </button>
+          )}
+          {options.pages &&
+            options.pages.map((p, i) => {
+              let cName = "";
+              if (p === options.page + 1) {
+                cName = style.active;
+              }
+              return (
+                pages.length > i && (
+                  <button key={p} className={cName} onClick={handeClick}>
+                    {options.pages[i]}{" "}
+                  </button>
+                )
+              );
+            })}
+          {pages.length > 0 && (
+            <button disabled={options.next} onClick={handleNext}>
+              next
+            </button>
+          )}
+      
         </div>
       </div>
     </>

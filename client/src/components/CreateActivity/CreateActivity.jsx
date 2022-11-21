@@ -122,9 +122,10 @@ const CreateActivity = () => {
     dispatch(postActivity(activity));
     history.push("/home");
   };
+ 
 
   return (
-    <>
+    <div className={style.container}>
       <NavBar />
       <div className={style.form}>
         <h1>Create Activity</h1>
@@ -136,12 +137,15 @@ const CreateActivity = () => {
               placeholder="==  ADD a Activity =="
               name="name"
               onChange={handleChange}
-            />{" "}
+              className={errName.name&& style.err}
+            />
+            <br />
             {errName.name && <span>{errName.name}</span>}
           </div>
 
           <div>
-            <select name="difficulty" onChange={handleChange}>
+            <select name="difficulty" onChange={handleChange}
+            className={errDificulty.difficulty&& style.err}>
               <option value="">difficulty</option>
               <option value={1}>1</option>
               <option value={2}>2</option>
@@ -149,27 +153,31 @@ const CreateActivity = () => {
               <option value={4}>4</option>
               <option value={5}>5</option>
             </select>
+            <br />
             {errDificulty.difficulty && errDificulty.difficulty}
           </div>
 
           <div>
-            <select name="season" onChange={handleChange}>
+            <select name="season" onChange={handleChange} className={errSeason.season&& style.err}>
               <option value=""> = season = </option>
               <option value="spring">spring</option>
               <option value="summer">summer</option>
               <option value="autumm">autumm</option>
               <option value="winter">winter</option>
             </select>
+            <br />
             {errSeason.season && errSeason.season}
           </div>
 
           <div>
-            <input type="date" name="start" onChange={handleChange} />
+            <input type="date" name="start" onChange={handleChange} className={errStart.start&& style.err} />
+            <br />
             {errStart.start && errStart.start}
           </div>
 
           <div>
-            <input type="date" name="end" onChange={handleChange} />
+            <input type="date" name="end" onChange={handleChange} className={errEnd.end&& style.err} />
+            <br />
             {errEnd.end && errEnd.end}
           </div>
         </form>
@@ -180,12 +188,12 @@ const CreateActivity = () => {
             countriesAdds={countriesAdds}
           />
         </div>
-      </div>
-
       <form onSubmit={handleSubmit}>
         <button disabled={btnDisabled}>Create</button>
       </form>
-    </>
+      </div>
+
+    </div>
   );
 };
 

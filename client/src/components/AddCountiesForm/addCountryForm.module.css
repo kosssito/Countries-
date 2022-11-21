@@ -1,0 +1,15 @@
+.findResult ul li{
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    position: relative;
+    left: 30%;
+}
+
+.list ul li{
+    display: flex;
+    position: relative;
+    left: 50px;
+
+
+}

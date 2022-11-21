@@ -5,6 +5,7 @@ import {
   getAllCountries,
   searchCountry
 } from "../../redux/actions";
+import style from './addCountryForm.module.css'
 
 const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
   // Local STATE
@@ -106,10 +107,12 @@ const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
       list: input.list.filter((c) => c.id !== e.target.name),
     });
   };
-
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+  }
   return (
     <>
-    <form  >
+    <form  className={style.form} onSubmit={handleSubmit} >
       <input
         type="text"
         placeholder="= search a city and add it ="
@@ -119,7 +122,7 @@ const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
       <button type="reset" disabled={btnDisabledAdd} onClick={handleClick}>
       ADD
       </button>
-      <div>
+      <div className={style.findResult}>
         <ul>
           {activtySearcher.map(
             (c, i) =>
@@ -133,9 +136,9 @@ const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
       </div>
     </form>
       {errAdd.add && <p>{errAdd.add} </p>}
-      <div>
+      <div className={style.list}>
         <ul>
-          <p>Counties adds:</p>
+          <p>COUNTRIES ADDS</p>
           {input.list.map((c) => (
             <li key={c.name}>
               <label>{c.name}</label>
