@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getActivity, postActivity } from "../../redux/actions";
 import AddCountiesForm from "../AddCountiesForm/AddCountiesForm";
+import Error from "../Error/Error";
 import NavBar from "../Nav/NavBar";
 import style from "./activity.module.css";
 
@@ -35,7 +36,7 @@ const CreateActivity = () => {
     season: "",
     countries: [],
   });
-  
+
   const [countriesAdds, setCountriesAdds] = useState({
     list: [],
   });
@@ -62,6 +63,7 @@ const CreateActivity = () => {
 
   const activities = useSelector((state) => state.activities);
   const actUpper = activities.map((a) => a.name.toUpperCase());
+  const error = useSelector((state) => state.error);
 
   // === VALIDATORS ===
 
@@ -88,11 +90,14 @@ const CreateActivity = () => {
   const validatorStart = (input) => {
     const error = {};
     if (input === "") error.start = "select a start activity date";
+    if(Date.now()>= Date.parse(input)+86400000-1) error.start = "You cannot enter dates before today"
+  
     return error;
   };
   const validatorEnd = (input) => {
     const error = {};
     if (input === "") error.end = "select a end activity date";
+    if(Date.parse(input)< Date.parse(activity.start) ) error.end = "You cannot enter a date before the start date"
     return error;
   };
 
@@ -112,8 +117,10 @@ const CreateActivity = () => {
     });
   };
 
-
   //===SUBMIT====
+  const handleSubmit1=(e)=>{
+    e.preventDefault();
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -122,30 +129,31 @@ const CreateActivity = () => {
     dispatch(postActivity(activity));
     history.push("/home");
   };
- 
 
   return (
     <div className={style.container}>
       <NavBar />
       <div className={style.form}>
         <h1>Create Activity</h1>
-
-        <form>
+        <form onSubmit={handleSubmit1}>
           <div>
             <input
               type="text"
               placeholder="==  ADD a Activity =="
               name="name"
               onChange={handleChange}
-              className={errName.name&& style.err}
+              className={errName.name && style.err}
             />
             <br />
             {errName.name && <span>{errName.name}</span>}
           </div>
 
           <div>
-            <select name="difficulty" onChange={handleChange}
-            className={errDificulty.difficulty&& style.err}>
+            <select
+              name="difficulty"
+              onChange={handleChange}
+              className={errDificulty.difficulty && style.err}
+            >
               <option value="">difficulty</option>
               <option value={1}>1</option>
               <option value={2}>2</option>
@@ -158,7 +166,11 @@ const CreateActivity = () => {
           </div>
 
           <div>
-            <select name="season" onChange={handleChange} className={errSeason.season&& style.err}>
+            <select
+              name="season"
+              onChange={handleChange}
+              className={errSeason.season && style.err}
+            >
               <option value=""> = season = </option>
               <option value="spring">spring</option>
               <option value="summer">summer</option>
@@ -170,13 +182,23 @@ const CreateActivity = () => {
           </div>
 
           <div>
-            <input type="date" name="start" onChange={handleChange} className={errStart.start&& style.err} />
+            <input
+              type="date"
+              name="start"
+              onChange={handleChange}
+              className={errStart.start && style.err}
+            />
             <br />
             {errStart.start && errStart.start}
           </div>
 
           <div>
-            <input type="date" name="end" onChange={handleChange} className={errEnd.end&& style.err} />
+            <input
+              type="date"
+              name="end"
+              onChange={handleChange}
+              className={errEnd.end && style.err}
+            />
             <br />
             {errEnd.end && errEnd.end}
           </div>
@@ -188,11 +210,11 @@ const CreateActivity = () => {
             countriesAdds={countriesAdds}
           />
         </div>
-      <form onSubmit={handleSubmit}>
-        <button disabled={btnDisabled}>Create</button>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <button disabled={btnDisabled}>Create</button>
+          {error && <div className={style.error}><Error /></div>}
+        </form>
       </div>
-
     </div>
   );
 };

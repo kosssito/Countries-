@@ -1,0 +1,43 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    height: 430px;
+    position: relative;
+    top: 30%;
+   
+}
+
+.div{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 200px;
+    background-color: rgba(57, 59, 58, 0.758);
+    position: relative;
+    left: 45%;
+    border-radius: 20px;
+    align-items: center;
+}
+.div:hover{
+    background-color: rgba(202, 203, 203, 0.774) ;
+}
+.text{
+    padding: 10px;
+}
+
+.button{
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 20px;
+    background-color: rgba(165, 42, 42, 0.274);
+}
+.button:hover{
+    background-color: brown;
+}
+
+.parrafo{
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}

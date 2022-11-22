@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../../components/Nav/NavBar";
 import { getAllCountries } from "../../redux/actions";
+import Error from "../Error/Error";
 import Paginate from "../Paginate/Paginate";
 import style from "./home.module.css";
 
@@ -50,6 +51,7 @@ export const Home = () => {
 
   // USE SELECTOR
   const allCountries = useSelector((state) => state.allCountries);
+  const error = useSelector((state) => state.error);
 
   // USE EFECT
   const dispatch = useDispatch();
@@ -97,7 +99,7 @@ export const Home = () => {
 
   return (
     <>
-      <NavBar className={style.navbar} />
+      <NavBar />
       <div className={style.content}>
         <h1 className={style.title}>{fillter.continents}</h1>
         <div className={style.select}>
@@ -120,8 +122,14 @@ export const Home = () => {
             <option value="lowest">LOWEST</option>
           </select>
         </div>
-        <div className={style.cards}>
-          <Paginate filterOutPut={fillter.filterOutPut} resetPage={options} />
+        <div className={style.pages}>
+          {error ? (
+            <div className={style.error}>
+              <Error className={style.letter} />
+            </div>
+          ) : (
+            <Paginate filterOutPut={fillter.filterOutPut} resetPage={options} />
+          )}
         </div>
       </div>
     </>

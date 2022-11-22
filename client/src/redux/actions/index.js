@@ -5,6 +5,7 @@ export const GET_COUNTRY_DETAILS_ID = "GET_COUNTRY_DETAILS_ID";
 export const GET_COUNTRY_DETAILS_NAME = "GET_COUNTRY_DETAILS_NAME";
 export const POST_ACTIVITY = "POST_ACTIVITY";
 export const SET_ERROR = "SET_ERROR";
+export const CLEAN_ERROR = "CLEAN_ERROR";
 export const CLEAN_COUNTRY = "CLEAN_COUNTRY";
 export const CLEAN_FIND = "CLEAN_FIND";
 export const CLEAN_ACTIVITY_SEARCHER = "CLEAN_ACTIVITY_SEARCHER";
@@ -127,3 +128,7 @@ export const cleanCountry = () => {
 export const cleanFind = () => {
   return { type: CLEAN_FIND };
 };
+
+export const clenError = ()=>{
+  return { type: CLEAN_ERROR };
+}

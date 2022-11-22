@@ -8,7 +8,8 @@ import {
   CLEAN_ACTIVITY_SEARCHER,
   SEARCH_COUNTRY,
   GET_ACTIVITY,
-  SET_ERROR
+  SET_ERROR,
+  CLEAN_ERROR,
 } from "../actions";
 
 const initialState = {
@@ -69,10 +70,15 @@ const rootReducer = (state = initialState, action) => {
         activities: action.payload,
       };
     case SET_ERROR:
-      return{
+      return {
         ...state,
-        error: true
-      }
+        error: true,
+      };
+    case CLEAN_ERROR:
+      return {
+        ...state,
+        error: false,
+      };
 
     default:
       return state;

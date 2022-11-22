@@ -44,3 +44,19 @@
   font-size: 20px;
   margin-bottom: 20px;
 }
+
+.error{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 530px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  left: 32%;
+  margin-top: 60px;
+  padding-top: 20px;
+  bottom: 30px;
+  border-radius: 20px;
+}
