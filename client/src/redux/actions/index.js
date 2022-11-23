@@ -13,19 +13,19 @@ export const SEARCH_COUNTRY = "SEARCH_COUNTRY";
 export const GET_ACTIVITY = "GET_ACTIVITY";
 
 export const getAllCountries = () => {
-  return async (dispatch) => {
-    try {
-      const result = await axios.get("http://localhost:3001/countries");
-      return dispatch({
-        type: GET_ALL_COUNTRIES,
-        payload: result.data,
-      });
-    } catch (error) {
-      return dispatch({
-        type: SET_ERROR,
-        payload: true,
-      });
-    }
+  return (dispatch) => {
+  
+    return fetch("http://localhost:3001/countries")
+     .then(response => response.json())
+     .then(data=> dispatch({
+      type: GET_ALL_COUNTRIES,
+      payload: data
+     }))
+     .catch(error => dispatch({
+      type: SET_ERROR
+     }))
+
+     
   };
 };
 
@@ -94,7 +94,11 @@ export const postActivity = (data) => {
         "http://localhost:3001/activities",
         data
       );
-      return activity;
+     return dispatch({
+        type: POST_ACTIVITY,
+        payload: activity.data
+      })
+
     } catch (error) {
       return dispatch({
         type: SET_ERROR,

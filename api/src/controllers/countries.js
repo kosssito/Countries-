@@ -52,7 +52,6 @@ const getCountry = async (req, res) => {
     const { id } = req.params;
     const getDB = await Country.findAll({
       where: { id: id.toUpperCase() },
-      attributes: { exclude: ["capital", "subregion"] },
       include: Activity,
     });
     return res.send(getDB);

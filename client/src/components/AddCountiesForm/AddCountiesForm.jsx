@@ -37,7 +37,7 @@ const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
   // validator input Searchs
   const validatorAdd = (input) => {
     const error = {};
-    if (![...countriesName].filter((c) => c.match("^\\b" + input)).length)
+    if (![...countriesName].filter((c) => c.match("^\\b" + input.toLowerCase())).length)
       error.add = "don't exist this country";
     return error;
   };

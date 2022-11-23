@@ -50,6 +50,10 @@ const CountryDetail = ({ match }) => {
             <span>{country.continent}</span>
             <span className={style.title}>ID</span>
             <span>{country.id}</span>
+            <span className={style.title}>CAPITAL</span>
+            <span>{country.capital}</span>
+            <span className={style.title}>SUBREGION</span>
+            <span>{country.subregion}</span>
             <span className={style.title}>AREA</span>
             <span>{country.area}</span>
             <span className={style.title}>POPULATION</span>
