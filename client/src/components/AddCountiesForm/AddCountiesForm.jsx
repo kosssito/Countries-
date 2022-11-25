@@ -49,7 +49,6 @@ const AddCountiesForm = ({ setCountriesAdds, countriesAdds }) => {
       ...input,
       [e.target.name]: e.target.value,
     });
-    console.log(e)
   };
 
   // ADD button 

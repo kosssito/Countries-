@@ -9,30 +9,20 @@ import style from "./activity.module.css";
 
 const CreateActivity = () => {
   //LOCAL STATES
-  const [errName, setErrName] = useState({
+
+  const [err, setErr] = useState({
     name: "activity name must have more than 3 characters",
-  });
-
-  const [errDificulty, setErrDificulty] = useState({
     difficulty: "select a dificulty",
-  });
-
-  const [errSeason, setErrSeason] = useState({
     season: "select a season",
-  });
-  const [errStart, setErrStart] = useState({
     start: "select a start activity date",
-  });
-
-  const [errEnd, setErrEnd] = useState({
     end: "select a end activity date",
   });
 
   const [activity, setActivity] = useState({
     name: "",
     difficulty: "",
-    start: 0,
-    end: 0,
+    start: "",
+    end: "",
     season: "",
     countries: [],
   });
@@ -43,12 +33,12 @@ const CreateActivity = () => {
 
   // Btn Disable Create
   let btnDisabled = !(
-    activity.name.length &&
-    activity.difficulty.length &&
-    activity.start !== 0 &&
-    activity.end !== 0 &&
     countriesAdds.list.length &&
-    !errName.name
+    !err.name &&
+    !err.season &&
+    !err.difficulty &&
+    !err.start &&
+    !err.end
   );
 
   // USE EFFECT
@@ -59,6 +49,11 @@ const CreateActivity = () => {
     dispatch(getActivity());
   }, [dispatch]);
 
+  useEffect(() => {
+    setErr(validator(activity));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activity]);
+
   // USE SELECTOR
 
   const activities = useSelector((state) => state.activities);
@@ -67,50 +62,33 @@ const CreateActivity = () => {
 
   // === VALIDATORS ===
 
-  const validatorName = (input) => {
+  const validator = (activity) => {
     const error = {};
-    if (input.length < 3)
+    // name
+    if (activity.name.length <= 3)
       error.name = "activity name must have more than 3 characters";
-    if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(input) && input !== "")
+    if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(activity.name) && activity.name !== "")
       error.name = " dont use special characters $%&/().,-_[]{}*";
-    if (actUpper.includes(input.toUpperCase()))
+    if (actUpper.includes(activity.name.toUpperCase()))
       error.name = "activity name resgistred";
-    return error;
-  };
-  const validatorDificulty = (input) => {
-    const error = {};
-    if (input === "") error.difficulty = "select a dificulty";
-    return error;
-  };
-  const validatorSeason = (input) => {
-    const error = {};
-    if (input === "") error.season = "select a season";
-    return error;
-  };
-  const validatorStart = (input) => {
-    const error = {};
-    if (input === "") error.start = "select a start activity date";
-    if(Date.now()>= Date.parse(input)+86400000-1) error.start = "You cannot enter dates before today"
-  
-    return error;
-  };
-  const validatorEnd = (input) => {
-    const error = {};
-    if (input === "") error.end = "select a end activity date";
-    if(Date.parse(input)< Date.parse(activity.start) ) error.end = "You cannot enter a date before the start date"
+    // Dificulty
+    if (activity.difficulty === "") error.difficulty = "select a dificulty";
+    // Season
+    if (activity.season === "") error.season = "select a season";
+    // Start
+    if (activity.start === "") error.start = "select a start activity date";
+    if (Date.now() >= Date.parse(activity.start) + 86400000 - 1)
+      error.start = "You cannot enter dates before today";
+    // End
+    if (activity.end === "") error.end = "select a end activity date";
+    if (Date.parse(activity.end) < Date.parse(activity.start))
+      error.end = "You cannot enter a date before the start date";
+
     return error;
   };
 
   // monitor changes in activity inputs
   const handleChange = (e) => {
-    if (e.target.name === "name") setErrName(validatorName(e.target.value));
-    if (e.target.name === "difficulty")
-      setErrDificulty(validatorDificulty(e.target.value));
-    if (e.target.name === "season")
-      setErrSeason(validatorSeason(e.target.value));
-    if (e.target.name === "start") setErrStart(validatorStart(e.target.value));
-    if (e.target.name === "end") setErrEnd(validatorEnd(e.target.value));
-
     setActivity({
       ...activity,
       [e.target.name]: e.target.value,
@@ -118,9 +96,10 @@ const CreateActivity = () => {
   };
 
   //===SUBMIT====
-  const handleSubmit1=(e)=>{
+  const handleSubmit1 = (e) => {
     e.preventDefault();
-  }
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -139,20 +118,20 @@ const CreateActivity = () => {
           <div>
             <input
               type="text"
-              placeholder="==  ADD a Activity =="
+              placeholder="  ==   Activity Name   =="
               name="name"
               onChange={handleChange}
-              className={errName.name && style.err}
+              className={err.name?style.err:style.input}
             />
             <br />
-            {errName.name && <span>{errName.name}</span>}
+            {err.name && <span>{err.name}</span>}
           </div>
 
           <div>
             <select
               name="difficulty"
               onChange={handleChange}
-              className={errDificulty.difficulty && style.err}
+              className={err.difficulty?style.err:style.input}
             >
               <option value="">difficulty</option>
               <option value={1}>1</option>
@@ -162,14 +141,14 @@ const CreateActivity = () => {
               <option value={5}>5</option>
             </select>
             <br />
-            {errDificulty.difficulty && errDificulty.difficulty}
+            {err.difficulty && err.difficulty}
           </div>
 
           <div>
             <select
               name="season"
               onChange={handleChange}
-              className={errSeason.season && style.err}
+              className={err.season?style.err:style.input}
             >
               <option value=""> = season = </option>
               <option value="spring">spring</option>
@@ -178,7 +157,7 @@ const CreateActivity = () => {
               <option value="winter">winter</option>
             </select>
             <br />
-            {errSeason.season && errSeason.season}
+            {err.season && err.season}
           </div>
 
           <div>
@@ -186,10 +165,10 @@ const CreateActivity = () => {
               type="date"
               name="start"
               onChange={handleChange}
-              className={errStart.start && style.err}
+              className={err.start?style.err:style.input}
             />
             <br />
-            {errStart.start && errStart.start}
+            {err.start && err.start}
           </div>
 
           <div>
@@ -197,10 +176,10 @@ const CreateActivity = () => {
               type="date"
               name="end"
               onChange={handleChange}
-              className={errEnd.end && style.err}
+              className={err.end?style.err:style.input}
             />
             <br />
-            {errEnd.end && errEnd.end}
+            {err.end && err.end}
           </div>
         </form>
 
@@ -212,7 +191,11 @@ const CreateActivity = () => {
         </div>
         <form onSubmit={handleSubmit}>
           <button disabled={btnDisabled}>Create</button>
-          {error && <div className={style.error}><Error /></div>}
+          {error && (
+            <div className={style.error}>
+              <Error />
+            </div>
+          )}
         </form>
       </div>
     </div>

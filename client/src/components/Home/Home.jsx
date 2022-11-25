@@ -72,9 +72,9 @@ export const Home = () => {
     setOptions({
       ...options,
       page: 0,
-      pages: [1, 2, 3, 4, 5],
-      next: false,
-      back: true,
+      pages: [1, 2, 3, 4, 5,],
+      // next: false,
+      // back: true,
     });
     const filter = functionContinetFilter([...allCountries], e.target.value);
     setFilter({

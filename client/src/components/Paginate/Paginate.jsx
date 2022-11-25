@@ -23,60 +23,79 @@ const functionPages = (arr) => {
 };
 
 const Paginate = ({ filterOutPut, resetPage }) => {
+  const arrPages = functionPages(filterOutPut);
+
+  // Local State
+  const [options, setOptions] = useState({
+    page: 0,
+    pages: [1, 2, 3, 4, 5],
+    next: false,
+    back: false,
+  });
+
+  // UseEfect
   useEffect(() => {
     setOptions(resetPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetPage]);
 
-  const pages = functionPages(filterOutPut);
-  const [options, setOptions] = useState({
-    page: 0,
-    pages: [1, 2, 3, 4, 5],
-    next: false,
-    back: true,
-  });
+  useEffect(() => {
+    // 1 page
+    if (arrPages.length === 0 && options.page === 0)
+      return setOptions({ ...options, back: true, next: true });
+    // 2 pages
+    if (arrPages.length === 2) {
+      if (options.page === 0)
+        return setOptions({ ...options, back: true, next: false });
+      if (options.page === 1)
+        return setOptions({ ...options, back: false, next: true });
+    }
+    // +3 pages
+    // Start pages
+    if (options.page === 0 && options.page !== arrPages.length - 1)
+      return setOptions({ ...options, back: true, next: false });
+    // Midle pages
+    if (options.page !== 0 && options.page !== arrPages.length - 1)
+      return setOptions({ ...options, back: false, next: false });
+    // end pages
+    if (options.page !== 0 && options.page === arrPages.length - 1)
+      return setOptions({ ...options, back: false, next: true });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options.page]);
 
   const handlePreview = () => {
-    options.page < 1 && setOptions({ ...options, back: true });
-
     if (options.pages[0] > 1) {
       return setOptions({
         ...options,
         page: options.page - 1,
         pages: options.pages.map((e) => e - 1),
-        next: false,
       });
-      // options.page < 1&&setOptions({...options,back:true})
     }
-
     if (options.page + 1 > 1) {
       return setOptions({
         ...options,
         page: options.page - 1,
-        next: false,
       });
-      // return  options.page < 1&&setOptions({...options,back:true})
     }
+
   };
 
   const handleNext = () => {
-    options.page < pages.length && setOptions({ ...options, next: true });
-
-    if (options.pages[4] < pages.length)
+    if (options.pages[4] < arrPages.length)
       return setOptions({
         ...options,
         page: options.page + 1,
         pages: options.pages.map((e) => e + 1),
-        back: false,
       });
-    if (options.page < pages.length - 1)
+
+    if (options.page < arrPages.length - 1)
       return setOptions({
         ...options,
         page: options.page + 1,
-        back: false,
       });
   };
-  const handeClick = (e) => {
+  const handeClickPage = (e) => {
     setOptions({
       ...options,
       page: parseInt(e.target.textContent) - 1,
@@ -86,9 +105,8 @@ const Paginate = ({ filterOutPut, resetPage }) => {
   return (
     <>
       <div className={style.content}>
-       
         <div className={style.buttons}>
-          {pages.length > 0 && (
+          {arrPages.length > 0 && (
             <button disabled={options.back} onClick={handlePreview}>
               preview
             </button>
@@ -100,24 +118,23 @@ const Paginate = ({ filterOutPut, resetPage }) => {
                 cName = style.active;
               }
               return (
-                pages.length > i && (
-                  <button key={p} className={cName} onClick={handeClick}>
-                    {options.pages[i]}{" "}
+                arrPages.length > i && (
+                  <button key={p} className={cName} onClick={handeClickPage}>
+                    {options.pages[i]}
                   </button>
                 )
               );
             })}
-          {pages.length > 0 && (
+          {arrPages.length > 0 && (
             <button disabled={options.next} onClick={handleNext}>
               next
             </button>
           )}
-        
         </div>
 
         <div className={style.cards}>
-          {pages[options.page] &&
-            pages[options.page].map((c) => (
+          {arrPages[options.page] &&
+            arrPages[options.page].map((c) => (
               <CountryCard
                 key={c.id}
                 id={c.id}
@@ -128,7 +145,7 @@ const Paginate = ({ filterOutPut, resetPage }) => {
             ))}
         </div>
         <div className={style.buttons}>
-          {pages.length > 0 && (
+          {arrPages.length > 0 && (
             <button disabled={options.back} onClick={handlePreview}>
               preview
             </button>
@@ -140,19 +157,18 @@ const Paginate = ({ filterOutPut, resetPage }) => {
                 cName = style.active;
               }
               return (
-                pages.length > i && (
-                  <button key={p} className={cName} onClick={handeClick}>
-                    {options.pages[i]}{" "}
+                arrPages.length > i && (
+                  <button key={p} className={cName} onClick={handeClickPage}>
+                    {options.pages[i]}
                   </button>
                 )
               );
             })}
-          {pages.length > 0 && (
+          {arrPages.length > 0 && (
             <button disabled={options.next} onClick={handleNext}>
               next
             </button>
           )}
-      
         </div>
       </div>
     </>

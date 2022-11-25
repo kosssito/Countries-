@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import style from "./navBar.module.css";
 import Search from "../Search/Search";
 import ico from "./icoFlag.jpg";
 
 const NavBar = () => {
+  const location = useLocation();
+  
   return (
     <>
       <header className={`${style.header}`}>
@@ -14,11 +16,21 @@ const NavBar = () => {
         </div>
         <nav>
           <ul className={`${style.links}`}>
+            <Link to="/">
+          {  location.pathname ==='/'? <li className={style.active}><span>LANDING</span></li>:
+          <li ><span>LANDING</span></li>
+          }
+            </Link>
             <Link to="/home">
-              <li>HOME</li>
+            {  location.pathname ==='/home'
+            ?<li className={style.active}><span>HOME</span></li>
+             :<li ><span>HOME</span></li>
+          }
             </Link>
             <Link to="/activity">
-              <li>ACTIVITY</li>
+            {  location.pathname ==='/activity'? <li className={style.active}><span>ACTIVITY</span></li>:
+          <li ><span>ACTIVITY</span></li>
+          }
             </Link>
           </ul>
         </nav>

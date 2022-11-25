@@ -19,7 +19,10 @@ font-weight: bold;
 }
 
 .err{
-    border: solid rgb(53, 49, 3) 5px;
+    border: solid rgb(164, 151, 7) 5px;
+}
+.input{
+    border: solid rgb(2, 161, 13) 5px;
 }
 
 .error{
