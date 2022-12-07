@@ -35,9 +35,16 @@ const Paginate = ({ filterOutPut, resetPage }) => {
 
   // UseEfect
   useEffect(() => {
+    console.log(filterOutPut.length)
+    if (filterOutPut.length <9)
+      return setOptions({
+        ...options,
+        next: true,
+        back: true,
+      });
     setOptions(resetPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resetPage]);
+  }, [filterOutPut]);
 
   useEffect(() => {
     // 1 page
@@ -78,7 +85,6 @@ const Paginate = ({ filterOutPut, resetPage }) => {
         page: options.page - 1,
       });
     }
-
   };
 
   const handleNext = () => {

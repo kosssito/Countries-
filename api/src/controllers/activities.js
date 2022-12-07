@@ -26,7 +26,7 @@ const activitiesPost = async (req, res) => {
     await activity.addCountries(countries);
     return res.status(200).send(activity);
   } catch (error) {
-    return res.status(400).send({ msg: error.message });
+    return res.status(400).send(error.message );
   }
 };
 
